@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infinite Grid Carousel</title>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div class="carousel">
+      <div class="track" id="track"></div>
+    </div>
+
+    <div class="overlay"></div>
+
+    <main class="content">
+        
+      <!-- MUSIC PLAYER -->
+      <div class="music-player" id="musicPlayer">
+        <!-- COVER -->
+        <div class="music-cover">
+          <img src="images/cover.jpg" alt="Pick Up The Phone" id="musicCover" />
+        </div>
+
+        <!-- INFO -->
+        <div class="music-info">
+          <h2 id="musicTitle">Pick Up The Phone</h2>
+
+          <p id="musicArtist">Henry Moodie</p>
+        </div>
+
+        <!-- PROGRESS -->
+        <div class="music-progress">
+          <span id="currentTime"> 0:00 </span>
+
+          <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+
+          <span id="duration"> -0:00 </span>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="music-controls">
+          <!-- PREVIOUS -->
+          <button class="control-btn" id="prevButton" aria-label="Previous">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M6 5v14M18 6v12l-9-6 9-6z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+
+          <!-- PLAY / PAUSE -->
+          <button class="play-button" id="playButton" aria-label="Play">
+            <!-- PLAY -->
+            <svg
+              id="playIcon"
+              class="icon-play"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M8 5v14l11-7L8 5z" fill="currentColor" />
+            </svg>
+
+            <!-- PAUSE -->
+            <svg
+              id="pauseIcon"
+              class="icon-pause"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M7 5h3v14H7zM14 5h3v14h-3z" fill="currentColor" />
+            </svg>
+          </button>
+
+          <!-- NEXT -->
+          <button class="control-btn" id="nextButton" aria-label="Next">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M18 5v14M6 6v12l9-6-9-6z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+
+          <!-- HEART -->
+          <button
+            class="control-btn heart-button"
+            id="heartButton"
+            aria-label="Favorite"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M20.8 8.6
+        C20.8 5.8 18.7 4 16.1 4
+        C14.5 4 13 4.8 12 6
+        C11 4.8 9.5 4 7.9 4
+        C5.3 4 3.2 5.8 3.2 8.6
+        C3.2 13.5 12 20 12 20
+        C12 20 20.8 13.5 20.8 8.6Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- AUDIO -->
+
+      <audio
+        id="audio"
+        src="audio/pickupthephone.mp3"
+        preload="metadata"
+      ></audio>
+
+    </main>
+
+    <script src="script.js"></script>
+
+  </body>
+</html>

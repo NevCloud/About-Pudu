@@ -1,0 +1,865 @@
+/* =================================
+   RESET
+================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+body {
+  background: #111;
+  overflow: hidden;
+}
+
+.birthstone-regular {
+  font-family: "Birthstone", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* =================================
+   SETTINGS
+================================= */
+
+:root {
+  /*
+     * JARAK ANTAR TITIK TENGAH ROW
+     *
+     * Row 1 = 50% - spacing
+     * Row 2 = 50%
+     * Row 3 = 50% + spacing
+     */
+
+  --row-spacing: 350px;
+
+  /*
+     * TINGGI MASING-MASING ROW
+     *
+     * Semakin besar = semakin
+     * banyak overlap
+     */
+
+  --row-height: 42vh;
+
+  /*
+     * ROTASI
+     */
+
+  --row-rotation: 2deg;
+
+  /*
+     * JARAK ANTAR FOTO
+     */
+
+  --image-gap: 10px;
+
+  /*
+     * KECEPATAN CAROUSEL
+     */
+
+  --speed: 90s;
+}
+
+/* =================================
+   CAROUSEL
+================================= */
+
+.carousel {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  overflow: hidden;
+
+  /*
+     * Sedikit diperbesar supaya
+     * tidak muncul area kosong
+     * akibat rotasi
+     */
+
+  transform: scale(1.08);
+
+  /*
+     * BLUR BACKGROUND
+     */
+}
+
+/* =================================
+   ROW DASAR
+================================= */
+
+.row {
+  position: absolute;
+
+  left: 50%;
+
+  width: 100vw;
+
+  height: var(--row-height);
+
+  overflow: visible;
+
+  /*
+     * INI ADALAH ANCHOR ROW
+     *
+     * translate(-50%, -50%)
+     * membuat titik tengah row
+     * benar-benar berada di posisi top.
+     */
+
+  transform: translate(-50%, -50%);
+}
+
+/* =================================
+   ROW 1
+================================= */
+
+.row:nth-child(1) {
+  /*
+     * TITIK TENGAH ROW 1
+     *
+     * 50% - spacing
+     */
+
+  top: calc(50% - var(--row-spacing));
+
+  /*
+     * ROTASI KE KANAN / BAWAH
+     */
+
+  transform: translate(-50%, -50%) rotate(var(--row-rotation));
+
+  /*
+     * LAYER PALING BELAKANG
+     */
+
+  z-index: 1;
+}
+
+/* =================================
+   ROW 2
+================================= */
+
+.row:nth-child(2) {
+  /*
+     * TITIK TENGAH ROW 2
+     *
+     * TEPAT DI TENGAH LAYAR
+     */
+
+  top: 50%;
+
+  /*
+     * ROTASI KE KIRI / BAWAH
+     */
+
+  transform: translate(-50%, -50%) rotate(calc(var(--row-rotation) * -1));
+
+  /*
+     * LAYER TENGAH
+     */
+
+  z-index: 2;
+}
+
+/* =================================
+   ROW 3
+================================= */
+
+.row:nth-child(3) {
+  /*
+     * TITIK TENGAH ROW 3
+     *
+     * 50% + spacing
+     */
+
+  top: calc(50% + var(--row-spacing));
+
+  /*
+     * ROTASI KE KANAN / BAWAH
+     */
+
+  transform: translate(-50%, -50%) rotate(var(--row-rotation));
+
+  /*
+     * LAYER PALING DEPAN
+     */
+
+  z-index: 3;
+}
+
+/* =================================
+   TRACK
+================================= */
+
+.track {
+  display: flex;
+
+  width: max-content;
+
+  height: 100%;
+
+  gap: var(--image-gap);
+
+  will-change: transform;
+
+  /*
+     * SHADOW
+     *
+     * Membuat setiap carousel
+     * terasa seperti layer.
+     */
+
+  filter: drop-shadow(0 -20px 60px rgba(0, 0, 0, 1));
+}
+
+/* =================================
+   IMAGE
+================================= */
+
+.track img {
+  border: solid 10px black;
+  display: block;
+
+  flex-shrink: 0;
+
+  height: 100%;
+
+  width: auto;
+
+  aspect-ratio: 16 / 9;
+
+  object-fit: cover;
+  filter: blur(8px);
+}
+
+/* =================================
+   ROW 1 & ROW 3
+   GERAK KE KIRI
+================================= */
+
+.row-left .track {
+  animation: moveLeft var(--speed) linear infinite;
+}
+
+/* =================================
+   ROW 2
+   GERAK KE KANAN
+================================= */
+
+.row-right .track {
+  animation: moveRight var(--speed) linear infinite;
+}
+
+/* =================================
+   ANIMASI KIRI
+================================= */
+
+@keyframes moveLeft {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 5px));
+  }
+}
+
+/* =================================
+   ANIMASI KANAN
+================================= */
+
+@keyframes moveRight {
+  from {
+    transform: translateX(calc(-50% - 5px));
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* =================================
+   OVERLAY
+================================= */
+
+.overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 10;
+
+  pointer-events: none;
+
+  background: linear-gradient(
+    to bottom,
+
+    rgba(15, 15, 15, 0.95),
+    rgba(15, 15, 15, 0.75),
+    rgba(15, 15, 15, 0.95)
+  );
+}
+
+/* Music player */
+.music-player {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Mengetengahkan modal secara sempurna */
+
+  width: 420px;
+  height: 620px;
+
+  padding: 45px 25px 30px;
+
+  background: rgba(20, 20, 20, 0.85);
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  border-radius: 20px;
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    inset 0 0 30px rgba(255, 255, 255, 0.03);
+
+  z-index: 100;
+
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+
+  animation: playerIn 1.4s cubic-bezier(0.1, 1, 0.5, 1) forwards;
+
+  transition:
+    width 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    top 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    border-radius 1s cubic-bezier(0.16, 1, 0.3, 1),
+    padding 1s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Mencegah kilauan keluar dari border-radius */
+  overflow: hidden;
+}
+
+/* Pseudo-element untuk lapisan kilauan */
+.music-player::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.157) 50%,
+    transparent 100%
+  );
+
+  filter: blur(12px);
+
+  transform: skewX(-25deg);
+  pointer-events: none; /* Agar tidak mengganggu klik elemen di dalam player */
+
+  /* Menjalankan animasi loop kilauan */
+  animation: shineLoop 6s infinite ease-in-out;
+}
+
+/* Keyframe untuk menggerakkan kilauan secara terus menerus */
+@keyframes shineLoop {
+  0% {
+    left: -150%;
+  }
+  30% {
+    left: 150%; /* Kilauan bergerak cepat melewati kartu di detik-detik awal */
+  }
+  100% {
+    left: 150%; /* Memberikan jeda waktu diam sebelum mengulang kilauan lagi */
+  }
+}
+
+@keyframes playerIn {
+  0% {
+    opacity: 0;
+
+    transform: translate(-50%, 120%) rotate(80deg);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+}
+
+/* =========================
+   ALBUM COVER
+========================= */
+
+.album-cover {
+  width: 350px;
+  height: 350px;
+
+  border-radius: 17px;
+
+  overflow: hidden;
+
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.album-cover img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+/* =========================
+   SONG INFO
+========================= */
+
+.song-info {
+  width: 100%;
+
+  margin-top: 30px;
+
+  text-align: center;
+}
+
+.song-info h2 {
+  font-size: 22px;
+
+  font-weight: 600;
+
+  margin-bottom: 6px;
+}
+
+.song-info p {
+  font-size: 14px;
+
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-container {
+  width: 100%;
+
+  height: 4px;
+
+  margin-top: 30px;
+
+  background: rgba(255, 255, 255, 0.2);
+
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
+.progress {
+  width: 0%;
+
+  height: 100%;
+
+  background: white;
+
+  border-radius: inherit;
+
+  transition: width 0.1s linear;
+}
+
+/* =========================
+   TIME
+========================= */
+
+.time {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 8px;
+
+  font-size: 11px;
+
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
+.controls {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 35px;
+
+  margin-top: 30px;
+}
+
+.control,
+.play {
+  border: none;
+
+  color: white;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control {
+  font-size: 24px;
+
+  opacity: 0.7;
+}
+
+.play {
+  width: 60px;
+  height: 60px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  color: black;
+
+  font-size: 20px;
+
+  padding-left: 4px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.control:hover {
+  opacity: 1;
+}
+
+.play:hover {
+  transform: scale(1.05);
+}
+
+/* =========================
+   MINI PLAYER SAAT PLAY
+========================= */
+
+.music-player.mini {
+  top: calc(100% - 90px);
+
+  width: 420px;
+  height: 70px;
+
+  padding: 10px 10px;
+
+  border-radius: 18px;
+
+  flex-direction: row;
+
+  justify-content: space-between;
+}
+
+.music-player.mini .album-cover {
+  width: 50px;
+  height: 50px;
+
+  border-radius: 12px;
+
+  flex-shrink: 0;
+}
+
+.music-player.mini .song-info {
+  margin: 0 20px;
+
+  text-align: left;
+
+  flex: 1;
+}
+
+.music-player.mini .song-info h2 {
+  font-size: 15px;
+
+  margin-bottom: 2px;
+}
+
+.music-player.mini .song-info p {
+  font-size: 12px;
+}
+
+.music-player.mini .progress-container,
+.music-player.mini .time {
+  display: none;
+}
+
+.music-player.mini .controls {
+  margin: 0;
+
+  gap: 15px;
+}
+
+.music-player.mini .control {
+  display: none;
+}
+
+.music-player.mini .play {
+  width: 48px;
+  height: 48px;
+
+  font-size: 16px;
+}
+
+#playButton {
+  /* 1. Aktifkan Flexbox untuk perataan tengah */
+  display: inline-flex;
+  align-items: center; /* Tengah secara vertikal */
+  justify-content: center; /* Tengah secara horizontal */
+
+  /* 2. Ukuran lingkaran (sesuaikan kebutuhan Anda) */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Membuat bentuk lingkaran sempurna */
+
+  /* 3. Bersihkan style bawaan tombol */
+  border: none;
+  padding: 0; /* Hapus padding agar tidak menggeser SVG */
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+
+  /* 4. Mencegah SVG meluap */
+  overflow: hidden;
+}
+
+/* Memastikan SVG di dalam tombol mewarisi perataan */
+#playButton svg {
+  display: block;
+  /* Opsional: Sesuaikan ukuran SVG jika ingin pas di dalam lingkaran */
+  width: 24px;
+  height: 24px;
+}
+
+/* =================================
+   PAGE PARTS
+================================= */
+
+.part1 {
+  visibility: hidden;
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  width: 600px;
+
+  /*
+     * Anchor benar-benar di tengah
+     */
+
+  transform: translate(-50%, -50%);
+
+  z-index: 50;
+
+  color: white;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  pointer-events: none;
+}
+
+.part2 {
+  visibility: hidden;
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  width: 600px;
+
+  /*
+     * Anchor benar-benar di tengah
+     */
+
+  transform: translate(-50%, -50%);
+
+  z-index: 50;
+
+  color: white;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  pointer-events: none;
+}
+
+.part3 {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  width: 600px;
+
+  /*
+     * Anchor benar-benar di tengah
+     */
+
+  transform: translate(-50%, -50%);
+
+  z-index: 50;
+
+  color: white;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  pointer-events: none;
+}
+
+.part4 {
+  visibility: hidden;
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  width: 600px;
+
+  /*
+     * Anchor benar-benar di tengah
+     */
+
+  transform: translate(-50%, -50%);
+
+  z-index: 50;
+
+  color: white;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  pointer-events: none;
+}
+
+/* =================================
+   TEXT
+================================= */
+
+.content-top {
+  width: 100%;
+
+  text-align: left;
+}
+
+.content-bottom {
+  width: 100%;
+
+  text-align: right;
+}
+
+.content-top h1,
+.content-bottom h1 {
+  font-size: 45px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================
+   1. ANIMASI LIRIK UNIVERSAL
+   ========================================== */
+.lyrics-word {
+  display: inline-block;
+  opacity: 0.5;
+  transform: scale(1);
+  filter: drop-shadow(0 0 0px transparent);
+  
+  /* Warisi font-size, font-family, dan warna dari parent */
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  
+  /* Transisi Halus */
+  transition-property: transform, opacity, filter, color;
+  transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+  margin-right: 0.10em;
+}
+
+/* Status Saat Kata Aktif dinyanyikan */
+.lyrics-word.active {
+  opacity: 1;
+  transform: scale(1.15);
+  color: #ffffff;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+}
+
+/* =================================
+   IMAGE
+================================= */
+
+.content-image {
+  width: 100%;
+
+  aspect-ratio: 16 / 9;
+
+  overflow: hidden;
+
+  border: 2px solid rgba(255, 255, 255, 0.15);
+
+  border-radius: 20px;
+
+  box-shadow: 0 30px 30px rgba(0, 0, 0, 0.45);
+}
+
+.content-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
